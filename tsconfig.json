@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "ES6",
+    "lib": ["esnext", "dom"],
+    "strict": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "allowJs": true,
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+  },
+  "exclude": ["node_modules", "lib", "test", "dist"],
+  "include": ["src/**/*", "main.d.ts"]
+}
