@@ -1,23 +1,42 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "ES6",
-    "lib": ["esnext", "dom"],
+    // 允许未执行的代码不报错
+    "allowUnreachableCode": true,
+    // 严格模式, 强烈建议开启
     "strict": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": true,
+    // 支持别名导入:
+    // import * as React from "react"
     "esModuleInterop": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedParameters": true,
-    "noEmit": true,
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "allowJs": true,
+    // 目标js的版本
+    "target": "ES6",
+    // 目标代码的模块结构版本
+    "module": "ESNext",
+    // 在表达式和声明上有隐含的 any类型时报错。
+    "noImplicitAny": true,
+    // 删除注释
+    "removeComments": true,
+    // 保留 const和 enum声明
+    "preserveConstEnums": false,
+    // 生成sourceMap
+    "sourceMap": true,
+    // 目标文件所在路径
+    "outDir": "./lib",
+    // 编译过程中需要引入的库文件的列表
+    "lib": ["dom", "ES6"],
+    // 额外支持解构/forof等功能
+    "downlevelIteration": true,
+    // 是否生成声明文件
+    "declaration": true,
+    // 声明文件路径
+    "declarationDir": "./lib",
+    // 此处设置为node,才能解析import xx from 'xx'
+    "moduleResolution": "node",
+    // 从 tslib 导入辅助工具函数
+    "importHelpers": true,
+    // 插件
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
-  "exclude": ["node_modules", "lib", "test", "dist"],
-  "include": ["src/**/*", "main.d.ts"]
+  // 入口文件
+  "include": ["src/**/*.ts", "main.d.ts"],
+  "exclude": ["node_modules", "lib", "test", "dist"]
 }

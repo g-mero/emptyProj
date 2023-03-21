@@ -2,40 +2,49 @@ import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import serve from 'rollup-plugin-serve'
-import livereload from 'rollup-plugin-livereload'
 import postcss from 'rollup-plugin-postcss'
-import autoprefixer from 'autoprefixer'
-import typescript from '@rollup/plugin-typescript'
+import replace from '@rollup/plugin-replace'
+import postcssPresetEnv from 'postcss-preset-env'
 
+
+import pkg from './package.json' assert { type: 'json' }
+
+const funcName = pkg.name
 
 export default [
   {
     input: './src/main.ts',
     output: {
       file: './test/index.js',
-      format: 'umd',
-      name: 'empty',
+      format: 'iife',
+      name: funcName,
       sourcemap: true,
     },
     plugins: [
-      typescript(),
       resolve({
-        preferBuiltins: true,
-        mainFields: ['browser', 'jsnext', 'module', 'main'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      }),
+      replace({
+        // 版本号自动替换
+        __VERSION__: JSON.stringify(pkg.version),
+        preventAssignment: true,
       }),
       postcss({
         modules: {
           generateScopedName: '[local]___[hash:base64:5]',
         },
-        plugins: [autoprefixer()],
-        extract: 'css/index.css',
+        plugins: [postcssPresetEnv()],
+        // extract: 'css/index.css',
       }),
       commonjs(),
       babel({
         babelHelpers: 'bundled',
-        extensions: ['.ts','.js'],
-        exclude:'mode_modules/**',
-      })
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        exclude: 'mode_modules/**',
+      }),
+      serve({
+        contentBase: ['test', 'lib'],
+      }),
     ],
   },
 ]

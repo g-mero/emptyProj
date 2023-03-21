@@ -3,10 +3,12 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
 import postcss from 'rollup-plugin-postcss'
-import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
 import dts from 'rollup-plugin-dts'
-import typescript from '@rollup/plugin-typescript'
+import replace from '@rollup/plugin-replace'
+import postcssPresetEnv from 'postcss-preset-env'
+
+
 
 import pkg from './package.json' assert { type : 'json' }
 
@@ -32,23 +34,26 @@ export default [{
     },
   ],
   plugins: [
-    typescript(),
     resolve({
-      preferBuiltins: true,
-      mainFields: ['browser', 'jsnext', 'module', 'main'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    }),
+    replace({
+      // 版本号自动替换
+      __VERSION__: JSON.stringify(pkg.version),
+      preventAssignment: true,
     }),
     postcss({
       modules: {
-        generateScopedName: "gcss_[hash:base64:5]",
+        generateScopedName: 'gcss_[hash:base64:5]',
       },
-      plugins: [autoprefixer(), cssnano()],
+      plugins: [postcssPresetEnv(), cssnano()],
       // extract: 'gmero-comment.min.css', 如果你想导出css而不是css in js
     }),
     commonjs(),
     babel({
       babelHelpers: 'bundled',
-      extensions: ['.ts','.js'],
-      exclude:'mode_modules/**',
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      exclude: 'mode_modules/**',
     }),
     terser(),
   ],
