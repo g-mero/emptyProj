@@ -6,10 +6,15 @@ import postcss from 'rollup-plugin-postcss'
 import replace from '@rollup/plugin-replace'
 import postcssPresetEnv from 'postcss-preset-env'
 
+import { resolve as Rresolve } from 'path'
 
 import pkg from './package.json' assert { type: 'json' }
 
+// 这是styleinject到head中的唯一名称(全英文不能有点)
+const styledUniqueName = pkg.name
 const funcName = pkg.name
+
+const styleInjectPath = Rresolve('styleInject').replace(/[\\/]+/g, '/')
 
 export default [
   {
@@ -35,6 +40,10 @@ export default [
         },
         plugins: [postcssPresetEnv()],
         // extract: 'css/index.css',
+        // 这里使用自定义的inject，原版的问题很大
+        inject: (css, _id) => {
+          return `\nimport styleInject from '${styleInjectPath}';\nstyleInject(${css},'${styledUniqueName}');`
+        },
       }),
       commonjs(),
       babel({
