@@ -17,6 +17,8 @@ const libName = pkg.name
 // iife umd 等格式需要name来作为浏览器windows下的函数名
 const funcName = libName
 
+// css类名的前缀
+const cssPre = libName
 // 这是styleinject到head中的唯一名称(全英文不能有点)
 const styledUniqueName = libName
 
@@ -50,10 +52,10 @@ export default [
       }),
       postcss({
         modules: {
-          generateScopedName: 'gcss_[hash:base64:5]',
+          generateScopedName: `${cssPre}_[hash:base64:5]`,
         },
         plugins: [postcssPresetEnv(), cssnano()],
-        // extract: 'gmero-comment.min.css', 如果你想导出css而不是css in js
+        // extract: `${libName}.min.css`, 如果你想导出css而不是css in js
         // 这里使用自定义的inject，原版的问题很大
         inject: (css, _id) => {
           return `\nimport styleInject from '${styleInjectPath}';\nstyleInject(${css},'${styledUniqueName}');`
