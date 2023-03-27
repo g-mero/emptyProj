@@ -1,0 +1,26 @@
+{
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  // 以下配置需要VSCode安装ESlint插件
+  // 使用eslint规范
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  // 保存的时候自动格式化
+  "editor.formatOnSave": true,
+
+  // 默认使用prettier
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // stylelint配置
+  "stylelint.enable": true,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "[scss]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  }
+}
